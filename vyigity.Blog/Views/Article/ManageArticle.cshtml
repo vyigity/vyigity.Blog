@@ -1,0 +1,61 @@
+﻿@using vyigity.Blog.Models
+@model List<Article>
+
+@{
+    ViewBag.Title = "Veli Yigit YOLCU";
+}
+
+<script>
+
+    function approveArticle(id) {
+
+        $("#ARTICLE_ID").val(id);
+        $("#ISLEM").val(1);
+
+        $("#ProcessForm").submit();
+    }
+
+    function deleteArticle(id) {
+
+        $("#ARTICLE_ID").val(id);
+        $("#ISLEM").val(0);
+
+        $("#ProcessForm").submit();
+    }
+
+</script>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>TARİH</th>
+            <th>YAZI BAŞLIĞI</th>
+            <th>YAZAR</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Article c in Model)
+        {
+            <tr>
+
+                <td>@c.INSERT_DATE.ToShortDateString()</td>
+                <td><a href="@Url.Action("ArticleUpdate","Article",new { id=c.ID })">@c.TITLE</a></td>
+                <td>@c.AUTHOR</td>
+
+                <td><button @(c.ACTIVE == 1 ? "disabled=disabled" : "") type="button" class="btn btn-primary" onclick="approveArticle('@c.ID')">YAYINLA</button></td>
+                <td><button @(c.ACTIVE == 0 ? "disabled=disabled" : "") type="button" class="btn btn-primary" onclick="deleteArticle('@c.ID')">KALDIR</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form id="ProcessForm" action="~/Article/ProcessArticle" method="post">
+
+    <input type="hidden" id="ARTICLE_ID" name="ARTICLE_ID" />
+    <input type="hidden" id="ISLEM" name="ISLEM" />
+
+</form>
+

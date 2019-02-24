@@ -1,0 +1,115 @@
+﻿@using vyigity.Blog.Models
+@model IList<Article>
+
+@{
+    ViewBag.Title = "Veli Yigit YOLCU";
+}
+
+<style type="text/css" media="screen">
+    a:link {
+        color: #33348e;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #33348e;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #33348e;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: #7476b4;
+        text-decoration: none;
+    }
+</style>
+
+@foreach (Article arc in Model)
+{
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title"><a href="@Url.Action("Blog",new { id = arc.ID })">@arc.TITLE</a></h2>
+            <p class="card-text">@Html.Raw(arc.TEXT)</p>
+            @*<a href="#" class="btn btn-primary">Daha Fazla Oku...</a>*@
+        </div>
+        <div class="card-footer text-muted">
+            Tarih: @arc.INSERT_DATE.ToShortDateString() &nbsp
+            Yazar: <a href="#">@arc.AUTHOR</a> &nbsp
+            Yorum Sayısı: @arc.COMMENT_COUNT &nbsp
+            Etiketler:
+            @foreach (Category c in arc.CATEGORIES)
+            {
+                <a href="@Url.Action("Category",new { id= c.ID })"> @(c.LABEL_TEXT + " ")</a>
+            }
+        </div>
+    </div>
+
+    if (Convert.ToBoolean(ViewData["ShowCommentForm"]))
+    {
+        <script>
+
+            function saveComment() {
+
+                var frm = $("#commentInsertForm");
+
+                if ($(frm).valid()) {
+
+                    $.ajax({
+
+                        type: 'POST',
+                        url: '@Url.Action("AddComment","Comment")',
+                        data: frm.serialize(),
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        dataType: 'json',
+                        success: function (result) {
+
+                            frm.hide();
+                            alert("Yorumunuz başarıyla kaydedildi. Onaylandıktan sonra görünecektir.");
+
+                        },
+                        error: function (e) {
+
+                            alert("İstenmedik bir durum oluştu. Daha sonra tekrar deneyiniz.");
+                        }
+                    });
+                }
+            }
+        </script>
+
+        <form id="commentInsertForm" action="~/Home/Login" method="post" style="margin:10px">
+
+            <div class="form-group">
+                <label for="CommentUserName" class="col-form-label">Kullanıcı Adı:</label>
+                <input type="text" class="form-control" id="CommentUserName" name="USER_NAME" required data-msg-required="Bu alanı doldurunuz." />
+            </div>
+            <div class="form-group">
+                <label for="Password" class="col-form-label">Yorum:</label>
+                <textarea class="form-control" id="UserComment" name="COMMENT_TEXT" required data-msg-required="Bu alanı doldurunuz."></textarea>
+            </div>
+            <div style="text-align:right">
+                <button type="button" class="btn btn-primary" onclick="saveComment()">KAYDET</button>
+            </div>
+
+            <input type="hidden" value="@arc.ID" name="ARTICLE_ID" />
+
+        </form>
+    }
+
+    if (arc.COMMENTS != null && arc.COMMENTS.Count > 0)
+    {
+        foreach (Comment com in arc.COMMENTS)
+        {
+            <div class="media mb-4">
+                <div class="media-body">
+                    <h5 class="mt-0">@com.USER_NAME - @com.INSERT_DATE.ToShortDateString()</h5>
+                    @com.COMMENT_TEXT
+                </div>
+            </div>
+        }
+    }
+
+}

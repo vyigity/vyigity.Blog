@@ -1,0 +1,65 @@
+﻿@using vyigity.Blog.Models
+
+@model List<Comment>
+
+@{
+    ViewBag.Title = "Veli Yigit YOLCU";
+}
+
+<script>
+
+    function approveComment(id) {
+
+        $("#SEND_ID").val(id);
+        $("#SEND_ISLEM").val(1);
+
+        $("#SEND_FORM").submit();
+
+    }
+
+    function deleteComment(id) {
+
+        $("#SEND_ID").val(id);
+        $("#SEND_ISLEM").val(0);
+
+        $("#SEND_FORM").submit();
+
+    }
+
+</script>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>TARİH</th>
+            <th>YAZI BAŞLIĞI</th>
+            <th>YORUM YAPAN</th>
+            <th>YORUM</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Comment c in Model)
+        {
+        <tr @(c.CAUTION ? "class=table-danger" : "")>
+
+            <td>@c.INSERT_DATE.ToShortDateString()</td>
+            <td><a href="@Url.Action("Blog","Home",new { id=c.ARTICLE_ID })">@c.ARTICLE_TITLE</a></td>
+            <td>@c.USER_NAME</td>
+            <td>@c.COMMENT_TEXT</td>
+            <td><button type="button" class="btn btn-primary" onclick="approveComment('@c.ID')">ONAYLA</button></td>
+            <td><button type="button" class="btn btn-primary" onclick="deleteComment('@c.ID')">REDDET</button></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<form id="SEND_FORM" action="~/Comment/Process" method="post">
+
+    <input type="hidden" name="ID" id="SEND_ID" />
+    <input type="hidden" name="ISLEM" id="SEND_ISLEM" />
+
+</form>
+

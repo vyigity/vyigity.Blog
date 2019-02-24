@@ -1,0 +1,110 @@
+﻿@using vyigity.Blog.Models
+@model Article
+
+@{
+    ViewBag.Title = "Veli Yigit YOLCU";
+
+    List<Category> unloadedCats = ViewData["unloadedCategory"] as List<Category>;
+    List<Category> loadedCats = ViewData["loadedCats"] as List<Category>;
+}
+
+<script src="~/ckeditor/ckeditor.js"></script>
+@*<script src="~/Scripts/ckeditor.js"></script>*@
+
+<script>
+
+    function addCategory() {
+
+        var element = $("#masterList option:selected").detach();
+        $("#childList").append(element);
+
+    }
+
+    function removeCategory() {
+
+        var element = $("#childList option:selected").detach();
+        $("#masterList").append(element);
+    }
+
+    function fixList() {
+
+        $("#childList > option").prop("selected", true);
+    }
+
+</script>
+
+@{
+
+
+}
+
+<form id="commentInsertForm" action="~/Article/UpdateArticle" method="post" style="margin:10px">
+
+    <div class="form-group">
+        <label for="CommentUserName" class="col-form-label">Başlık:</label>
+        <input type="text" class="form-control" id="TITLE" name="TITLE" required data-msg-required="Bu alanı doldurunuz." value="@Model.TITLE" />
+    </div>
+    <div class="form-group">
+        <label for="editor" class="col-form-label">İçerik:</label>
+        <textarea name="CONTENT" id="editor">@Model.TEXT </textarea>
+        @*<textarea class="form-control" id="UserComment" name="COMMENT_TEXT" required data-msg-required="Bu alanı doldurunuz."></textarea>*@
+    </div>
+
+    <div class="form-group">
+        <label for="catDiv" class="col-form-label">Etiket:</label>
+        <div class="container" id="catDiv">
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <select style="width:100%" size=10 id="masterList" multiple="multiple">
+
+                        @foreach (Category c in unloadedCats)
+                        {
+                            <option value="@c.ID">@c.LABEL_TEXT</option>
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-lg-4" style="padding:10px">
+                    <div class="row">
+                        <div class="col" style="text-align:center;">
+                            <button type="button" class="btn btn-primary" onclick="addCategory()">></button>
+                        </div>
+
+                        <div class="w-100" style="margin:10px"></div>
+
+                        <div class="col" style="text-align:center">
+                            <button type="button" class="btn btn-primary" onclick="removeCategory()"><</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <select style="width:100%" size=10 id="childList" name="CATEGORIES" multiple="multiple">
+
+                        @foreach (Category c in loadedCats)
+                        {
+                            <option value="@c.ID">@c.LABEL_TEXT</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="text-align:right">
+        <button type="submit" onclick="fixList()" class="btn btn-primary">KAYDET</button>
+    </div>
+
+    <input type="hidden" value="@Model.ID" name="ARTICLE_ID" />
+
+</form>
+
+<script>
+
+    CKEDITOR.replace('editor');
+    //ClassicEditor.create(document.querySelector('#editor'));
+</script>

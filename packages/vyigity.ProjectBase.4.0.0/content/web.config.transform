@@ -1,0 +1,68 @@
+﻿<configuration>
+
+     <!--
+     
+      <configSections>
+        
+        <section name="oracle.manageddataaccess.client" type="OracleInternal.Common.ODPMSectionHandler, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342" />
+
+      </configSections>
+      
+      -->
+      
+    <connectionStrings >
+    
+            <add name="Context" connectionString="DATA SOURCE=YourDataSource;PASSWORD=YourPassword;USER ID=YourUserID" providerName="Oracle.DataAccess.Client" />
+            
+            <!--
+            
+            <add name="Context" connectionString="Server=127.0.0.1;Port=5432;Database=YourDataSource;User Id=YourUserID;Password=YourPassword" providerName="Npgsql"/>     
+            <add name="Context" connectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True" providerName="System.Data.SqlClient" />   
+            <add name="Context" connectionString="Server=localhost;Database=YourDataSource;Uid=YourUserID;Pwd=YourPassword;" providerName="MySql.Data.MySqlClient" />
+            <add name="Context" connectionString="DATA SOURCE=YourDataSource;PASSWORD=YourPassword;USER ID=YourUserID" providerName="Oracle.ManagedDataAccess.Client" />
+              
+            -->
+            
+    </connectionStrings>
+    <appSettings>
+    
+        <add key="APPLICATION_NAME" value="YourApplicationName" />
+        <add key="MAIL_USER_NAME" value="YourMajorMailUserName" />
+        <add key="MAIL_PASSWORD" value="YourMajorMailPassword" />
+        <add key="MAIL_ADRESS" value="YourMajorMailAdress" />
+        <add key="MAIL_HOST" value="YourMajorMailAdressIP" />
+        <add key="MAIL_HOST" value="YourMajorMailAdressIP" />
+        <add key="DEFAULT_DB" value="Context" />
+
+    </appSettings>
+    
+  <!--
+  
+  <oracle.manageddataaccess.client>
+    <version number="*">
+      <dataSources>
+        <dataSource alias="XE" descriptor="(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = XE)))"/>
+      </dataSources>
+    </version>
+  </oracle.manageddataaccess.client>
+  
+  <system.data>
+    <DbProviderFactories>
+      <remove invariant="Oracle.DataAccess.Client" />
+      <remove invariant="Oracle.ManagedDataAccess.Client" />
+      <add name="ODP.NET, Managed Driver" invariant="Oracle.ManagedDataAccess.Client" description="Oracle Data Provider for .NET, Managed Driver" type="Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342" />
+  </system.data>
+  
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <publisherPolicy apply="no" />
+        <assemblyIdentity name="Oracle.ManagedDataAccess" publicKeyToken="89b483f429c47342" culture="neutral" />
+        <bindingRedirect oldVersion="4.122.0.0 - 4.65535.65535.65535" newVersion="4.122.1.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  
+  -->
+  
+</configuration>

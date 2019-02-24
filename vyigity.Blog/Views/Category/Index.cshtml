@@ -1,0 +1,59 @@
+﻿@using vyigity.Blog.Models
+
+@{
+    ViewBag.Title = "Veli Yigit YOLCU";
+}
+
+<script>
+
+    function deleteCategory(id) {
+
+        $("#SEND_ID").val(id);
+        $("#SEND_FORM").submit();
+
+    }
+
+</script>
+
+
+<form id="categoryInsertForm" action="~/Category/AddCategory" method="post" style="margin:10px">
+
+    <div class="form-group">
+        <label for="CommentUserName" class="col-form-label">ETİKET</label>
+        <input type="text" class="form-control" id="CommentUserName" name="LABEL_TEXT" required data-msg-required="Bu alanı doldurunuz." />
+    </div>
+
+    <div style="text-align:right">
+        <button type="submit" class="btn btn-primary">KAYDET</button>
+    </div>
+
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ETİKET</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Category c in Model)
+        {
+            <tr>
+
+                <td>@c.ID</td>
+                <td>@c.LABEL_TEXT</td>
+                <td><button type="button" class="btn btn-primary" onclick="deleteCategory(@c.ID)">SİL</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form id="SEND_FORM" action="~/Category/DeleteCategory" method="post">
+
+    <input type="hidden" name="ID" id="SEND_ID" />
+
+</form>
+
